@@ -1,32 +1,83 @@
-using Lecturer_Cliam_Register.Models;
+using Lecturer_Claim_Register.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Lecturer_Cliam_Register.Controllers
+namespace Lecturer_Claim_Register.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        //stores the number for the  next id
+        private static int nextClaimId = 1;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        //in memory list of claims
+        private readonly List<Claimmodel> claims = new()
         {
-            _logger = logger;
+            new Claimmodel
+            {
+                ClaimId = nextClaimId++, 
+                LecturerName = "Castle Doe",
+                ModuleCode = "CS101",
+                HoursWorked = 10.0, 
+                HourlyRate = 250.00m,
+                ClaimMonth = "May 2026",
+                Status ="Draft"
+
+            },
+            new Claimmodel
+            {
+                ClaimId = nextClaimId++, 
+                LecturerName = "Jane Mokoena", 
+                ModuleCode = "DV422", 
+                HoursWorked = 8.0, 
+                HourlyRate = 490.00m,
+                ClaimMonth = "June 2026",
+                Status = "Draft"
+            },
+        };
+        //method to get all claims
+        public List<Claimmodel> GetAll() => claims;
+
+        public void AddClaim(Claimmodel claim)
+        {
+            claim.ClaimId = nextClaimId++;
+            claims.Add(claim);
         }
 
+        //Display list and entry form
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(GetAll());
         }
+         
+        //create claim
+        [HttpGet]
+        public IActionResult CreateClaim()
+        {
+            return View(new Claimmodel());
+        }
+
+        //create claim
+        [HttpPost]
+        public IActionResult CreateClaim(Claimmodel claim)
+        {
+            AddClaim(claim);
+            return RedirectToAction("Index");
+        }
+
+        //restful endpoint returns claims as json
+        [HttpGet("api/claims")]
+        public IActionResult GetClaims()
+        {
+            return Json(GetAll());
+        }
+
 
         public IActionResult Privacy()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

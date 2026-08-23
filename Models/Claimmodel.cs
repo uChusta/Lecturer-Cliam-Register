@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Lecturer_Cliam_Register.Models
+namespace Lecturer_Claim_Register.Models
 {
     public class Claimmodel
     {
