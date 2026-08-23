@@ -67,6 +67,7 @@ namespace Lecturer_Claim_Register.Controllers
         }
 
         //restful endpoint returns claims as json
+        [Route("api/claims")]
         [HttpGet("api/claims")]
         public IActionResult GetClaims()
         {

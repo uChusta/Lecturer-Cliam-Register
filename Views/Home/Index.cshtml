@@ -1,9 +1,38 @@
 ﻿@model IEnumerable<Lecturer_Claim_Register.Models.Claimmodel>
 @{
-    ViewData["Title"] = "Lecture Claim Register";
+    ViewData["Title"] = "Lecturer Claim Register";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Lecturer Claim Register</h2>
+    <a asp-action="Create" class="btn btn-primary">+ Create New Claim</a>
 </div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Lecturer</th>
+            <th>Module</th>
+            <th>Month</th>
+            <th>Hours</th>
+            <th>Rate</th>
+            <th>Total Amount</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ClaimId</td>
+                <td>@item.LecturerName</td>
+                <td>@item.ModuleCode</td>
+                <td>@item.ClaimMonth</td>
+                <td>@item.HoursWorked</td>
+                <td>@item.HourlyRate.ToString("C")</td>
+                <td><strong>@item.TotalAmount.ToString("C")</strong></td>
+                <td><span class="badge bg-secondary">@item.Status</span></td>
+            </tr>
+        }
+    </tbody>
+</table>
